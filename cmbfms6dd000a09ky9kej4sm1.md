@@ -4,7 +4,7 @@ seoTitle: "AI Toolkit: Streamline Tasks with py_agent_search"
 seoDescription: "Discover py_agent_search: A ReAct agent for web, Wikipedia, YouTube search, with Redis memory and Grafana logging for seamless AI integration"
 datePublished: Mon Jun 02 2025 21:57:54 GMT+0000 (Coordinated Universal Time)
 cuid: cmbfms6dd000a09ky9kej4sm1
-slug: pyagentsearch
+slug: unlock-ai-py-agent-search
 ogImage: https://cdn.hashnode.com/res/hashnode/image/upload/v1748901407247/a999cf52-3d79-4a8b-ba57-55f982d3e892.png
 tags: langchain, langgraph, agentic-ai
 
