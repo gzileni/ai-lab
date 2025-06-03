@@ -178,20 +178,20 @@ python test.py --question="give me resume Video 1"
 
 * * Open [`http://localhost:3000`](http://localhost:3000)
         
-    * In Explore → Loki, run:
-        
-        ```plaintext
-        {application="agent_search"} |= "" | json
-        ```
-        
-    * You’ll see structured log events (timestamps, metadata, LLM/tool calls) in real time.
-        
+        * In Explore → Loki, run:
+            
+            ```plaintext
+            {application="agent_search"} |= "" | json
+            ```
+            
+        * You’ll see structured log events (timestamps, metadata, LLM/tool calls) in real time.
+            
 
 ---
 
 ## How It All Fits Together
 
-* [`agent.py`](http://agent.py)  
+* [`agent.py`](https://github.com/gzileni/qi_agent_search/blob/main/py_agent_search/agent.py)  
     Defines `AgentSearch`, ties LangGraph’s ReAct agent to your Redis memory backend and all the search tools. When you call [`agent.stream`](http://agent.stream)`(...)`, it:
     
     1. Checks Redis for conversation history (if any).
@@ -200,7 +200,7 @@ python test.py --question="give me resume Video 1"
         
     3. Streams tokens back to your console (and to Grafana via Loki).
         
-* [`stream.py`](http://stream.py)  
+* [`stream.py`](https://github.com/gzileni/qi_agent_search/blob/main/py_agent_search/stream.py)  
     Houses `StreamingCallbackHandler` (inherits from `BaseCallbackHandler`). Its job is to intercept every LLM callback:
     
     * `on_llm_start`: log metadata
@@ -209,10 +209,10 @@ python test.py --question="give me resume Video 1"
         
     * `on_llm_end`: send a final log event
         
-* [`memory.py`](http://memory.py)  
+* [`memory.py`](https://github.com/gzileni/qi_agent_search/blob/main/py_agent_search/memory.py)  
     Wraps `AsyncRedisSaver` + `CheckpointSaver` from LangGraph. Each time the agent responds, it checkpoints conversation state in Redis. Next time you pick up the same `thread_id`, the agent “remembers” what happened before.
     
-* [`tools.py`](http://tools.py)  
+* [`tools.py`](https://github.com/gzileni/qi_agent_search/blob/main/py_agent_search/tools.py)  
     Instantiates three search tools:
     
     ```python
@@ -225,7 +225,7 @@ python test.py --question="give me resume Video 1"
     
     Each tool fetches content and uses the same `StreamingCallbackHandler` for token-level logging.
     
-* [`log.py`](http://log.py)  
+* [`log.py`](https://github.com/gzileni/qi_agent_search/blob/main/py_agent_search/log.py)  
     Centralizes logging logic. Exports a single function:
     
     ```python
@@ -234,7 +234,7 @@ python test.py --question="give me resume Video 1"
     
     Behind the scenes, it configures `LokiLoggerHandler` (sending JSON to Loki) and a console handler for non-production environments.
     
-* [`main.py`](http://main.py)  
+* [test.py](https://github.com/gzileni/qi_agent_search/blob/main/py_agent_search/test.py)  
     A minimal async example showing how to tie it all together:
     
     1. Read `.env`
